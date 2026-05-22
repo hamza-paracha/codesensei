@@ -6,6 +6,7 @@
   "scripts": {
     "backend": "cd backend && npm start",
     "dashboard": "cd dashboard && npm run dev",
+    "eval": "cd backend && npm run eval",
     "install:all": "npm install && cd backend && npm install && cd dashboard && npm install && cd vscode-extension && npm install"
   }
 }

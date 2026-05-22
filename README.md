@@ -140,17 +140,25 @@ The following metrics define our reliability targets:
 | Retrieval confidence | Average cosine similarity of top-5 chunks | > 0.65 |
 | Refusal rate on out-of-scope | % of unanswerable queries that trigger a refusal | > 80% |
 
-These are example targets, not measured results. We have not yet run a formal eval suite.
+These are example targets. The local harness below now measures the retrieval layer against a small ground-truth suite.
 
-### Eval Plan
+### Local Eval Harness
 
-We plan to build a lightweight evaluation harness:
-- A set of 20-30 ground-truth questions per test repo, each with expected file references.
-- Automated comparison of cited files/lines against ground truth.
-- A "hallucination probe" set: questions about code that does not exist in the repo, measuring refusal rate.
-- Tracked over time as the pipeline changes.
+Run the retrieval eval from the workspace root:
 
-This does not exist today. It is the next investment after core stability.
+```bash
+npm run eval
+```
+
+The harness lives in `backend/src/evaluate.js` and reads cases from
+`backend/evals/ground-truth.json`. It indexes the workspace, retrieves the top
+chunks for each question, checks expected file coverage, and includes an
+unanswerable probe so changes to retrieval do not silently increase hallucination
+risk. Override the target repo with:
+
+```bash
+CODESENSEI_EVAL_WORKSPACE=/path/to/repo npm run eval
+```
 
 ---
 
@@ -394,7 +402,7 @@ LOG_LEVEL=info
 
 These are the areas we plan to invest in next, all aligned with deepening the grounding and structural reasoning capabilities:
 
-1. **Evaluation harness.** A repeatable test suite with ground-truth questions, expected file citations, and hallucination probes. This is the highest-priority next step.
+1. **Expand evaluation coverage.** Grow the ground-truth suite from the starter cases to 20-30 questions per test repo.
 2. **Evidence panel in the dashboard.** Surface retrieved chunks, their relevance scores, and the reasoning trace directly in the chat UI so users can inspect why an answer was given.
 3. **Cross-language AST support.** Extend Babel-based parsing to Python, Go, and Rust via language-specific parsers, enabling structure-aware chunking for polyglot repos.
 4. **Strict grounding mode.** A toggle that rejects any answer where the top retrieval score falls below a configurable threshold, forcing refusal over speculation.

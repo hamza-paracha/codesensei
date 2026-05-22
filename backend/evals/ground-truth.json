@@ -1,0 +1,30 @@
+[
+  {
+    "id": "incremental-index-endpoint",
+    "question": "Which backend route handles /api/index/file with filePath and workspacePath for incremental indexing?",
+    "expectedFiles": ["backend/src/server.js"],
+    "minExpectedFilesHit": 1,
+    "minTopScore": 0.1
+  },
+  {
+    "id": "symbol-aware-chunking",
+    "question": "Where does CodeSensei split source files into symbol-aware chunks instead of raw character windows?",
+    "expectedFiles": ["backend/src/vectorStore.js", "backend/src/astParser.js"],
+    "minExpectedFilesHit": 1,
+    "minTopScore": 0.1
+  },
+  {
+    "id": "architecture-graph",
+    "question": "Which backend code builds the dependency graph used for architecture visualization?",
+    "expectedFiles": ["backend/src/vectorStore.js", "backend/src/ai.js"],
+    "minExpectedFilesHit": 1,
+    "minTopScore": 0.1
+  },
+  {
+    "id": "unanswerable-billing-migration",
+    "question": "Which Postgres migration creates subscription billing invoices?",
+    "expectedFiles": [],
+    "shouldAnswer": false,
+    "maxTopScore": 0.75
+  }
+]
